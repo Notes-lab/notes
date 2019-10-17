@@ -5,4 +5,4 @@ from . models import Categories
 
 class CategoriesListView(ListView):
     model = Categories
-    template_name = 'home.html'
+    template_name = 'category/home.html'
