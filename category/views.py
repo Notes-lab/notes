@@ -11,4 +11,4 @@ class CategoriesListView(ListView):
 class CategoriesCreateView(CreateView):
     model = Categories
     template_name = 'category/new_category.html'
-    fields = 'title'
+    fields = ('title',)

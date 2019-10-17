@@ -1,6 +1,7 @@
 import uuid
 
 from django.db import models
+from django.urls import reverse
 
 
 class Categories(models.Model):
@@ -9,3 +10,6 @@ class Categories(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('home', args=[str(self.slug)])
