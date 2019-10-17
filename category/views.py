@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 
-# Create your views here.
+from . models import Categories
+
+
+class CategoriesListView(ListView):
+    model = Categories
+    template_name = 'home.html'
