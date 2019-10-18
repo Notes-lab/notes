@@ -1,9 +1,41 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
-    <h1>New Category</h1>
-    <form action="" method="post">{% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save" />
-    </form>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+          <div class="card card-signin my-5">
+            <div class="card-body text-dark">
+                <h5 class="card-title text-center">New category</h5>
+                <form method="post" action="">
+                    {% csrf_token %}
+
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                    {% for field in form.visible_fields %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field|add_class:'form-control' }}
+                            {% for error in field.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-ok"></span> Save
+                        </button>
+                        <a href="{% url 'home' %}" class="btn btn-default">Cancel</a>
+                    </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 {% endblock %}
