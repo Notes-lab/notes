@@ -2,9 +2,11 @@
 
 {% block content %}
     <a class="btn" href="{% url 'new_category' %}">
-    <button class="btn btn-primary btn-lg mr-1" type="submit">+ Add Category</button>
+    <button class="btn btn-primary btn-lg" type="submit">+ Add Category</button>
     </a>
     {% for categories in object_list %}
-        <button type="button" class="btn btn-outline-success btn-lg mr-1">{{ categories.title }}</button>
+        <a class="btn" href="{% url 'detail_category' categories.slug %}">
+        <button type="button" class="btn btn-outline-success btn-lg">{{ categories.title }}</button>
+        </a>
     {% endfor %}
 {% endblock content %}

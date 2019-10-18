@@ -15,5 +15,5 @@ class CategoriesCreateView(CreateView):
 
 
 class CategoryDetailView(DetailView):
-    queryset = Categories.objects.filter().order_by('-created_on')
+    model = Categories
     template_name = 'category/category_detail.html'
