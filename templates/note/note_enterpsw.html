@@ -5,7 +5,10 @@
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card card-signin my-5">
           <div class="card-body bg-light text-dark">
-            <h5 class="card-title text-center">{{ object.title }}</h5>
+            <h5 class="card-title text-center">{{ title }}{{ object.title }}</h5>
+               <div class="form-label-group">
+                <p>{{ object.text }}</p>
+              </div>
               <form method="POST" class="post-form" action="{% url 'note_detail' object.slug %}">{% csrf_token %}
                   {{ form.as_p }}
                   <button type="submit" class="save btn btn-default">Send</button>

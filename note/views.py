@@ -6,6 +6,7 @@ from django.views.generic import DetailView, FormView
 from .models import Notes
 from category.models import Categories
 from .forms import NoteCreateForm, NoteDetailForm
+from .utils import *
 
 
 class NoteCreateView(FormView):
@@ -15,7 +16,7 @@ class NoteCreateView(FormView):
         if form.is_valid():
             note = form.save(commit=False)
             note.password = make_password(form.cleaned_data['password'])
-            print(note.password)
+            note.text = encode(note.password, note.text)
             note.category = category
             note.save()
             return redirect('note_detail', slug=note.slug)
@@ -36,21 +37,17 @@ class NoteDetailView(FormView, DetailView):
         note = Notes.objects.get(slug=kwargs['slug'])
         password = note.password
         title = note.title
-        text = note.text
-
+        text = decode(password, note.text)
         form = NoteDetailForm(request.POST)
         if form.is_valid():
             passwordentered = form.cleaned_data.get("password")
-            print(passwordentered)
-            print(password)
-            matchcheck = check_password(passwordentered, password)
-            print(matchcheck)
-            if matchcheck:
+            check = check_password(passwordentered, password)
+            if check:
                 return render(request, 'note/note_detail.html', {'title': title, 'text': text})
             else:
                 return redirect('note_detail', slug=note.slug)
         else:
-            return render(request, 'note/note_enterpsw.html', {'form': form})
+            return render(request, 'note/note_enterpsw.html', {'title': title, 'text': text})
 
 
 

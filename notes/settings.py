@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'category',
     'widget_tweaks',
     'note',
-
 ]
 
 MIDDLEWARE = [
