@@ -1,6 +1,8 @@
 import uuid
 
 from django.db import models
+from django.urls import reverse
+
 from category.models import Categories
 
 
@@ -17,3 +19,6 @@ class Notes(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('note_detail', kwargs={"slug": self.slug})

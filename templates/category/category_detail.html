@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <a class="btn" href="{% url 'new_category' %}">
-    <button class="btn btn-primary btn-lg mr-1" type="submit">+ Add Category</button>
+    <a class="btn" href="{% url 'new_note' categories.slug %}">
+    <button class="btn btn-primary btn-lg mr-1" type="submit">+ Add Note</button>
     </a>
     {% for object in object.notes.all %}
+        <a class="btn" href="{% url 'note_detail' object.slug %}">
         <button type="button" class="btn btn-outline-success btn-lg mr-1">{{ object.title }}</button>
+        </a>
     {% endfor %}
 {% endblock content %}
