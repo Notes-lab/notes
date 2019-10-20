@@ -1,7 +1,6 @@
 from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import redirect, render
-from django.urls import reverse
-from django.views.generic import DetailView, FormView
+from django.views.generic import DetailView, FormView, UpdateView
 
 from .models import Notes
 from category.models import Categories
@@ -43,11 +42,31 @@ class NoteDetailView(FormView, DetailView):
             passwordentered = form.cleaned_data.get("password")
             check = check_password(passwordentered, password)
             if check:
-                return render(request, 'note/note_detail.html', {'title': title, 'text': text})
+                return render(request, 'note/note_detail.html', {'title': title, 'text': text, 'slug': note.slug})
             else:
                 return redirect('note_detail', slug=note.slug)
         else:
             return render(request, 'note/note_enterpsw.html', {'title': title, 'text': text})
+
+
+class NoteUpdateView(UpdateView):
+    model = Notes
+    fields = ('title', 'text', 'password',)
+    template_name = 'note/note_edit.html'
+
+    def get(self, request, **kwargs):
+        self.object = Notes.objects.get(slug=kwargs['slug'])
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        form.initial['text'] = decode(self.object.password, self.object.text)
+        form.initial['password'] = None
+        context = self.get_context_data(object=self.object, form=form)
+        return self.render_to_response(context)
+
+    def form_valid(self, form):
+        form.instance.password = make_password(form.cleaned_data['password'])
+        form.instance.text = encode(form.instance.password, form.instance.text)
+        return super(NoteUpdateView, self).form_valid(form)
 
 
 
