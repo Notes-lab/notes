@@ -52,7 +52,6 @@ class NoteDetailView(FormView, DetailView):
 
 class NoteUpdateView(UpdateView):
     model = Notes
-    #fields = ('title', 'text', 'password',)
     form_class = NoteEdithForm
     template_name = 'note/note_edit.html'
 

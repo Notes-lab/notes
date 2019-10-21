@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'registration.User'
+
 
 # Application definition
 
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'category',
     'note',
     'cryptography',
+    'registration',
 ]
 
 MIDDLEWARE = [
