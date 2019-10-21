@@ -7,7 +7,7 @@ verify_ssl = true
 
 [packages]
 django = "*"
-django-widget-tweaks = "*"
+cryptography = "*"
 
 [requires]
 python_version = "3.6"

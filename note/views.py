@@ -15,7 +15,7 @@ class NoteCreateView(FormView):
         if form.is_valid():
             note = form.save(commit=False)
             note.password = make_password(form.cleaned_data['password'])
-            note.text = encode(note.password, note.text)
+            note.text = encrypt(note.text, note.password)
             note.category = category
             note.save()
             return redirect('note_detail', slug=note.slug)
@@ -36,7 +36,7 @@ class NoteDetailView(FormView, DetailView):
         note = Notes.objects.get(slug=kwargs['slug'])
         password = note.password
         title = note.title
-        text = decode(password, note.text)
+        text = decrypt(note.text, password)
         form = NoteDetailForm(request.POST)
         if form.is_valid():
             passwordentered = form.cleaned_data.get("password")
@@ -58,14 +58,14 @@ class NoteUpdateView(UpdateView):
         self.object = Notes.objects.get(slug=kwargs['slug'])
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        form.initial['text'] = decode(self.object.password, self.object.text)
+        form.initial['text'] = decrypt(self.object.text, self.object.password)
         form.initial['password'] = None
         context = self.get_context_data(object=self.object, form=form)
         return self.render_to_response(context)
 
     def form_valid(self, form):
         form.instance.password = make_password(form.cleaned_data['password'])
-        form.instance.text = encode(form.instance.password, form.instance.text)
+        form.instance.text = encrypt(form.instance.text, form.instance.password)
         return super(NoteUpdateView, self).form_valid(form)
 
 
