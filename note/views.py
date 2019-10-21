@@ -1,10 +1,11 @@
 from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import redirect, render
-from django.views.generic import DetailView, FormView, UpdateView
+from django.views.generic import DetailView, FormView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 from .models import Notes
 from category.models import Categories
-from .forms import NoteCreateForm, NoteDetailForm
+from .forms import NoteCreateForm, NoteDetailForm, NoteEdithForm
 from .utils import *
 
 
@@ -51,7 +52,8 @@ class NoteDetailView(FormView, DetailView):
 
 class NoteUpdateView(UpdateView):
     model = Notes
-    fields = ('title', 'text', 'password',)
+    #fields = ('title', 'text', 'password',)
+    form_class = NoteEdithForm
     template_name = 'note/note_edit.html'
 
     def get(self, request, **kwargs):
@@ -68,5 +70,10 @@ class NoteUpdateView(UpdateView):
         form.instance.text = encrypt(form.instance.text, form.instance.password)
         return super(NoteUpdateView, self).form_valid(form)
 
+
+class NoteDeleteView(DeleteView):
+    model = Notes
+    template_name = 'note/note_delete.html'
+    success_url = reverse_lazy('home')
 
 

@@ -14,7 +14,12 @@
                      <button type="submit" class="btn btn-success">
                          <span class="glyphicon glyphicon-ok"></span> Edit
                      </button></a>
-                        <a href="{% url 'home' %}" class="btn btn-default">Cancel</a>
+                        <a href="{% url 'home' %}">
+                            <button type="submit" class="btn btn-secondary">Cancel</button>
+                        </a>
+                        <a href="{% url 'note_delete' slug %}">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </a>
                  </div>
           </div>
         </div>
