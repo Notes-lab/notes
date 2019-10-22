@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
@@ -20,9 +21,9 @@ class CategoriesCreateView(LoginRequiredMixin, CreateView):
         user = get_object_or_404(get_user_model(), username=request.user.username)
         form = CategoriesCreateForm(request.POST)
         if form.is_valid():
-            note = form.save(commit=False)
-            note.user = user
-            note.save()
+            category = form.save(commit=False)
+            category.user = user
+            category.save()
             return redirect('home')
         else:
             return render(request, 'category/new_category.html', {'form': form})
