@@ -6,8 +6,8 @@ from django.urls import reverse
 
 
 class Categories(models.Model):
-    title = models.CharField(max_length=200, unique=True)
-    slug = models.SlugField(max_length=50, blank=True, default=uuid.uuid1, unique=True)
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=50, default=uuid.uuid1, unique=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='categories')
 
     def __str__(self):

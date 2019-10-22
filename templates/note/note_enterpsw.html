@@ -11,6 +11,9 @@
               </div>
               <form method="POST" class="post-form" action="{% url 'note_detail' object.slug %}">{% csrf_token %}
                   {{ form.as_p }}
+                    {% if form.errors %}
+                        <p class="text-danger">Please check your password.</p>
+                    {% endif %}
                   <button type="submit" class="btn btn-success">
                          <span class="glyphicon glyphicon-ok"></span> Show
                   </button>

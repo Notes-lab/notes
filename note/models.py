@@ -7,8 +7,8 @@ from category.models import Categories
 
 
 class Notes(models.Model):
-    title = models.CharField(max_length=200, unique=True)
-    slug = models.SlugField(max_length=50, blank=True, default=uuid.uuid1, unique=True)
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=50, default=uuid.uuid1, unique=True)
     text = models.TextField(max_length=500, blank=True)
     password = models.CharField(max_length=50)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE, related_name='notes')
