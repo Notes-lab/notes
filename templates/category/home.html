@@ -4,9 +4,9 @@
     <a href="{% url 'new_category' %}" class="mr-1">
     <button class="btn btn-primary btn-lg" type="submit">+ Add Category</button>
     </a>
-    {% for categories in object_list %}
-        <a href="{% url 'detail_category' categories.slug %}" class="mr-1">
-        <button type="button" class="btn btn-outline-success btn-lg">{{ categories.title }}</button>
+    {% for category in categories %}
+        <a href="{% url 'detail_category' category.slug %}" class="mr-1">
+        <button type="button" class="btn btn-outline-success btn-lg">{{ category.title }}</button>
         </a>
     {% endfor %}
 {% endblock content %}

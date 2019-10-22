@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-xl-4 mx-auto">
+                <div class="card card-signin flex-row my-5">
+                    <div class="card-img-left d-none d-md-flex">
+                    </div>
+                    <div class="card-body bg-light text-dark">
+                        {% if registered %}
+                        <h2 class="card-title text-center">Thank you for registering!</h2>
+                        <a class="d-block text-center mt-2 small text-muted" href="{% url 'login' %}">Sign in</a>
+                        {% else %}
+                        <h5 class="card-title text-center">Registration</h5>
+                        <form enctype="multipart/form-data" method="POST" class="form-signin">
+                            {% csrf_token %}
+                            {{ user_form.as_p }}
+                            <button class="btn btn-lg btn-block text-uppercase bg-secondary text-white" type="submit">
+                                Register
+                            </button>
+                            <a class="badge badge-light btn btn-sm d-block text-center mt-2 alert-primary text-muted" href="{% url 'login' %}">Sign in</a>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

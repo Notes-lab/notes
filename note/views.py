@@ -1,5 +1,7 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password, check_password
-from django.shortcuts import redirect, render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import DetailView, FormView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
@@ -9,17 +11,20 @@ from .forms import NoteCreateForm, NoteDetailForm, NoteEdithForm
 from .utils import *
 
 
-class NoteCreateView(FormView):
+class NoteCreateView(LoginRequiredMixin, FormView):
     def post(self, request, *args, **kwargs):
+        user = get_object_or_404(get_user_model(), username=request.user.username)
         category = Categories.objects.get(slug=kwargs['slug'])
         form = NoteCreateForm(request.POST)
         if form.is_valid():
             note = form.save(commit=False)
             note.password = make_password(form.cleaned_data['password'])
+            text = note.text
             note.text = encrypt(note.text, note.password)
+            note.user = user
             note.category = category
             note.save()
-            return redirect('note_detail', slug=note.slug)
+            return render(request, 'note/note_detail.html', {'title': note.title, 'text': text, 'slug': note.slug})
         else:
             return render(request, 'note/new_note.html', {'form': form})
 
@@ -28,10 +33,10 @@ class NoteCreateView(FormView):
         return render(request, 'note/new_note.html', {'form': form})
 
 
-class NoteDetailView(FormView, DetailView):
-    model = Notes
+class NoteDetailView(LoginRequiredMixin, FormView, DetailView):
     form_class = NoteDetailForm
     template_name = 'note/note_enterpsw.html'
+    model = Notes
 
     def post(self, request, *args, **kwargs):
         note = Notes.objects.get(slug=kwargs['slug'])
@@ -50,7 +55,7 @@ class NoteDetailView(FormView, DetailView):
             return render(request, 'note/note_enterpsw.html', {'title': title, 'text': text})
 
 
-class NoteUpdateView(UpdateView):
+class NoteUpdateView(LoginRequiredMixin, UpdateView):
     model = Notes
     form_class = NoteEdithForm
     template_name = 'note/note_edit.html'
@@ -70,7 +75,7 @@ class NoteUpdateView(UpdateView):
         return super(NoteUpdateView, self).form_valid(form)
 
 
-class NoteDeleteView(DeleteView):
+class NoteDeleteView(LoginRequiredMixin, DeleteView):
     model = Notes
     template_name = 'note/note_delete.html'
     success_url = reverse_lazy('home')
