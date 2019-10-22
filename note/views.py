@@ -60,16 +60,9 @@ class NoteUpdateView(LoginRequiredMixin, UpdateView):
     form_class = NoteEdithForm
     template_name = 'note/note_edit.html'
 
-    # def get_success_url(self):
-    #     slug = self.kwargs['slug']
-    #     note = Notes.objects.get(slug=slug)
-    #     category = note.category
-    #     slug_cat = category.slug
-    #     return reverse('detail_category', kwargs={'slug': slug_cat})
     def post(self, request, **kwargs):
         self.object = self.get_object()
         note = Notes.objects.get(slug=kwargs['slug'])
-
         note.title = request.POST['title']
         text = request.POST['text']
         password = request.POST['password']

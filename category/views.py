@@ -2,19 +2,17 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import CreateView, DetailView
 
 from . models import Categories
 from .forms import CategoriesCreateForm
 
 
 class CategoriesListView(LoginRequiredMixin, View):
-
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         user = get_object_or_404(get_user_model(), username=request.user.username)
         categories = Categories.objects.filter(user=user)
-        context = {'categories': categories}
-        return render(request, "category/home.html", context=context)
+        return render(request, "category/home.html", {'categories': categories})
 
 
 class CategoriesCreateView(LoginRequiredMixin, CreateView):
