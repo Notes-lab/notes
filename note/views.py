@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import DetailView, FormView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from .models import Notes
 from category.models import Categories
@@ -59,6 +59,25 @@ class NoteUpdateView(LoginRequiredMixin, UpdateView):
     model = Notes
     form_class = NoteEdithForm
     template_name = 'note/note_edit.html'
+
+    # def get_success_url(self):
+    #     slug = self.kwargs['slug']
+    #     note = Notes.objects.get(slug=slug)
+    #     category = note.category
+    #     slug_cat = category.slug
+    #     return reverse('detail_category', kwargs={'slug': slug_cat})
+    def post(self, request, **kwargs):
+        self.object = self.get_object()
+        note = Notes.objects.get(slug=kwargs['slug'])
+
+        note.title = request.POST['title']
+        text = request.POST['text']
+        password = request.POST['password']
+        password_h = make_password(password)
+        note.password = password_h
+        note.text = encrypt(text, password_h)
+        note.save()
+        return render(request, 'note/note_detail.html', {'title': note.title, 'text': text, 'slug': note.slug})
 
     def get(self, request, **kwargs):
         self.object = Notes.objects.get(slug=kwargs['slug'])
