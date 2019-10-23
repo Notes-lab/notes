@@ -32,6 +32,6 @@ A note-taking app with option to encrypt text.
     <code>$ python manage.py migrate</code>
   </p>
   <p>Run local web server this project:<br>
-    <code>$ python manage.py runserver</code>
+    <code>$ python manage.py runserver 8000</code>
   </p>
 </div>
