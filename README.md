@@ -8,7 +8,7 @@ A note-taking app with option to encrypt text.
 <ul>
   <li>At first you need to register then you should log in to your account</li>
   <li>Every note has category - you can create category</li>
-  <li>Notes - you can create edit, and delete a note. When you want to create a note, you also need to create a password </li>
+  <li>Notes - you can create edit, and delete a note. When you want to create a note, you also need to create a password. If you edit note and dont enter password it saves old password </li>
   <li>Note is password protected - you need to enter password to see text of note and edit it</li>
 </ul>
 <br>

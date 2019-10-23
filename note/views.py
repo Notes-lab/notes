@@ -39,7 +39,8 @@ class NoteDetailView(LoginRequiredMixin, FormView, DetailView):
     model = Notes
 
     def post(self, request, *args, **kwargs):
-        note = Notes.objects.get(slug=kwargs['slug'])
+        self.object = self.get_object()
+        note = self.object
         password = note.password
         title = note.title
         text = decrypt(note.text, password)
@@ -62,7 +63,8 @@ class NoteUpdateView(LoginRequiredMixin, UpdateView):
 
     def post(self, request, **kwargs):
         self.object = self.get_object()
-        note = Notes.objects.get(slug=kwargs['slug'])
+        print(self.object)
+        note = self.object
         note.title = request.POST['title']
         text = request.POST['text']
         if request.POST['password']:
@@ -74,23 +76,17 @@ class NoteUpdateView(LoginRequiredMixin, UpdateView):
         return render(request, 'note/note_detail.html', {'title': note.title, 'text': text, 'slug': note.slug})
 
     def get(self, request, **kwargs):
-        self.object = Notes.objects.get(slug=kwargs['slug'])
+        self.object = self.get_object()
+        note = self.object
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        form.initial['text'] = decrypt(self.object.text, self.object.password)
+        form.initial['text'] = decrypt(note.text, note.password)
         form.initial['password'] = None
-        context = self.get_context_data(object=self.object, form=form)
+        context = self.get_context_data(object=note, form=form)
         return self.render_to_response(context)
-
-    def form_valid(self, form):
-        form.instance.password = make_password(form.cleaned_data['password'])
-        form.instance.text = encrypt(form.instance.text, form.instance.password)
-        return super(NoteUpdateView, self).form_valid(form)
 
 
 class NoteDeleteView(LoginRequiredMixin, DeleteView):
     model = Notes
     template_name = 'note/note_delete.html'
     success_url = reverse_lazy('home')
-
-
