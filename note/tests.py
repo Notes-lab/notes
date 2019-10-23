@@ -5,7 +5,7 @@ from .models import Categories, Notes
 from .utils import *
 
 
-class CategoryTests(TestCase):
+class NoteTests(TestCase):
     def setUp(self):
         self.c = Client()
         self.user = get_user_model().objects.create_user(

@@ -19,7 +19,6 @@ class CategoryTests(TestCase):
 
     def test_category_login(self):
         response = self.c.get(reverse('home'))
-        print(response.status_code)
         self.assertEqual(response.status_code, 302)
 
         self.c.login(username='testuser', password='secret')

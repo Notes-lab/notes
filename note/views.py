@@ -65,10 +65,11 @@ class NoteUpdateView(LoginRequiredMixin, UpdateView):
         note = Notes.objects.get(slug=kwargs['slug'])
         note.title = request.POST['title']
         text = request.POST['text']
-        password = request.POST['password']
-        password_h = make_password(password)
-        note.password = password_h
-        note.text = encrypt(text, password_h)
+        if request.POST['password']:
+            password = request.POST['password']
+            password_h = make_password(password)
+            note.password = password_h
+        note.text = encrypt(text, note.password)
         note.save()
         return render(request, 'note/note_detail.html', {'title': note.title, 'text': text, 'slug': note.slug})
 

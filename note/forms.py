@@ -20,7 +20,7 @@ class NoteDetailForm(forms.ModelForm):
 
 
 class NoteEdithForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput, required=False)
 
     class Meta:
         model = Notes
