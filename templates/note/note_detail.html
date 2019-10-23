@@ -1,29 +1,22 @@
-{% extends 'base.html' %}
-{% block content %}
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card card-signin my-5">
-          <div class="card-body bg-light text-dark">
-            <h5 class="card-title text-center">{{ title }}</h5>
-              <div class="form-label-group">
-                <p>{{ text }}</p>
-              </div>
-                 <div class="form-group">
-                     <a href="{% url 'note_edit' slug %}">
-                     <button type="submit" class="btn btn-success">
-                         <span class="glyphicon glyphicon-ok"></span> Edit
-                     </button></a>
-                        <a href="{% url 'home' %}">
-                            <button type="submit" class="btn btn-secondary">Cancel</button>
-                        </a>
-                        <a href="{% url 'note_delete' slug %}">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </a>
-                 </div>
-          </div>
-        </div>
-      </div>
+{% extends 'card.html' %}
+{% block form %}
+
+    <h5 class="card-title text-center">{{ title }}</h5>
+    <div class="form-label-group">
+        <p>{{ text }}</p>
     </div>
-  </div>
+    <div class="form-group">
+        <a href="{% url 'note_edit' slug %}">
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span> Edit
+            </button>
+        </a>
+        <a href="{% url 'home' %}">
+            <button type="submit" class="btn btn-secondary">Cancel</button>
+        </a>
+        <a href="{% url 'note_delete' slug %}">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </a>
+    </div>
+
 {% endblock %}

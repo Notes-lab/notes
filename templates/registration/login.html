@@ -1,26 +1,18 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "card.html" %}
+{% block form %}
 
-
-<div class="container">
-    <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4 mx-auto">
-        <div class="card card-signin my-5 bg-light text-dark">
-          <div class="card-body">
-            <h5 class="card-title text-center">Sign in</h5>
-            <form method="post" action="{% url 'login' %}" class="form-signin" >
-              {% csrf_token %}
-              {{ form.as_p }}
-                {% if form.errors %}
-                    <p class="text-danger">Please check your login and password.</p>
-                {% endif %}
-              <button class="btn btn-lg btn-block text-uppercase bg-secondary text-white" type="submit">Sign in</button>
-              <a class="badge badge-light btn btn-sm d-block text-center mt-2 text-muted alert-primary" href="{% url 'register' %}">Register</a>
-            </form>
-          </div>
-        </div>
-      </div>
+    <div class="card-body">
+        <h5 class="card-title text-center">Sign in</h5>
+        <form method="post" action="{% url 'login' %}" class="form-signin">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% if form.errors %}
+                <p class="text-danger">Please check your login and password.</p>
+            {% endif %}
+            <button class="btn btn-lg btn-block text-uppercase bg-secondary text-white" type="submit">Sign in</button>
+            <a class="badge badge-light btn btn-sm d-block text-center mt-2 text-muted alert-primary"
+               href="{% url 'register' %}">Register</a>
+        </form>
     </div>
-  </div>
 
 {% endblock %}

@@ -1,25 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'card.html' %}
 
-{% block content %}
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-          <div class="card card-signin my-5">
-            <div class="card-body text-dark">
-                <h5 class="card-title text-center">Edit Note</h5>
-                <form action="{% url 'note_edit' slug=object.slug %}" method="post">{% csrf_token %}
-                    {{ form.as_p }}
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success" value="Update">
-                            <span class="glyphicon glyphicon-ok"></span> Save
-                        </button>
-                        <a href="{% url 'home' %}" class="btn btn-default">Cancel</a>
-                    </div>
-                </form>
-            </div>
-          </div>
+{% block form %}
+
+    <h5 class="card-title text-center">Edit Note</h5>
+    <form action="{% url 'note_edit' slug=object.slug %}" method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-group">
+            <button type="submit" class="btn btn-success" value="Update">
+                <span class="glyphicon glyphicon-ok"></span> Save
+            </button>
+            <a href="{% url 'home' %}" class="btn btn-default">Cancel</a>
         </div>
-      </div>
-    </div>
+    </form>
 
 {% endblock %}
