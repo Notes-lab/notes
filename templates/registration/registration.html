@@ -10,7 +10,8 @@
                     <div class="card-body bg-light text-dark">
                         {% if registered %}
                         <h2 class="card-title text-center">Thank you for registering!</h2>
-                        <a class="d-block text-center mt-2 small text-muted" href="{% url 'login' %}">Sign in</a>
+                            <a class="badge badge-light btn btn-sm d-block text-center mt-2 text-muted alert-primary"
+               href="{% url 'login' %}">Log in</a>
                         {% else %}
                         <h5 class="card-title text-center">Registration</h5>
                         <form enctype="multipart/form-data" method="POST" class="form-signin">
