@@ -24,7 +24,8 @@ class NoteCreateView(LoginRequiredMixin, FormView):
             note.user = user
             note.category = category
             note.save()
-            return render(request, 'note/note_detail.html', {'title': note.title, 'text': text, 'slug': note.slug})
+            return render(request, 'note/note_detail.html', {'title': note.title, 'text': text, 'slug': note.slug,
+                                                             'slug_cat': category.slug})
         else:
             return render(request, 'note/new_note.html', {'form': form})
 
