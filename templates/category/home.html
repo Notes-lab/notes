@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <a href="{% url 'new_category' %}" class="mr-1">
+    <div class="container">
+        <h2 class="text-center mb-3">Categories</h2>
+    </div>
+    <a href="{% url 'new_category' %}" class="mr-1 mb-1">
     <button class="btn btn-primary btn-lg" type="submit">+ Add Category</button>
     </a>
     {% for category in categories %}
-        <a href="{% url 'detail_category' category.slug %}" class="mr-1">
+        <a href="{% url 'detail_category' category.slug %}" class="mr-1 mb-1">
         <button type="button" class="btn btn-outline-success btn-lg">{{ category.title }}</button>
         </a>
     {% endfor %}
